@@ -26,18 +26,32 @@ void applyTMVA(TString method){
    Float_t official_mv2;
    Float_t ip2d_pb;
    Float_t ip2d_pu;
-   Float_t ip3d_pu;
+   Float_t ip2d_pc;
+
    Float_t ip3d_pb;
+   Float_t ip3d_pu;
+   Float_t ip3d_pc;
+
    Float_t sv1_efc;
    Float_t sv1_m;
+   Float_t sv1_ntrkv;
+   Float_t sv1_n2t;
    Float_t sv1_l2d;
    Float_t sv1_l3d;
+   Float_t sv1_sig3d;
+   Float_t sv1_deltaR;
+
+   Float_t jf_efc;
+   Float_t jf_m;
+   Float_t jf_ntrkv;
+   Float_t jf_n2t;
    Float_t jf_sig3d;
+   Float_t jf_l3d;
    Float_t jf_deltaR;
    Float_t jf_nvtx;
    Float_t jf_nvtx1t;
-   Int_t label;
 
+   Int_t label;
    Int_t num=0;
    Int_t den=0;
 
@@ -45,19 +59,32 @@ void applyTMVA(TString method){
   
    reader->AddVariable("ip2d_pb", &ip2d_pb);
    reader->AddVariable("ip2d_pu", &ip2d_pu);
+   reader->AddVariable("ip2d_pc", &ip2d_pc);
+
+   reader->AddVariable("ip3d_pb", &ip3d_pb);
+   reader->AddVariable("ip3d_pu", &ip3d_pu);
+   reader->AddVariable("ip3d_pc", &ip3d_pc);  
    
    reader->AddVariable("sv1_efc", &sv1_efc);
    reader->AddVariable("sv1_m", &sv1_m);
-   
-   reader->AddVariable("jf_sig3d", &jf_sig3d);
-   reader->AddVariable("jf_deltaR",&jf_deltaR);
-   reader->AddVariable("jf_nvtx",&jf_nvtx);
-
-   /*   reader->AddVariable("ip3d_pb", &ip3d_pb);
-   reader->AddVariable("ip3d_pu", &ip3d_pu);
+   reader->AddVariable("sv1_ntrkv", &sv1_ntrkv);
+   reader->AddVariable("sv1_n2t", &sv1_n2t);
    reader->AddVariable("sv1_l2d", &sv1_l2d);
    reader->AddVariable("sv1_l3d", &sv1_l3d);
-   reader->AddVariable("jf_nvtx1t",&jf_nvtx1t);*/
+   reader->AddVariable("sv1_sig3d", &sv1_sig3d);
+   reader->AddVariable("sv1_deltaR", &sv1_deltaR);
+
+   reader->AddVariable("jf_efc", &jf_efc);
+   reader->AddVariable("jf_m", &jf_m);
+   reader->AddVariable("jf_ntrkv", &jf_ntrkv);
+   reader->AddVariable("jf_n2t", &jf_n2t);
+   //reader->AddVariable("jf_l3d", &jf_l3d);
+   reader->AddVariable("jf_sig3d", &jf_sig3d);
+   reader->AddVariable("jf_deltaR", &jf_deltaR);
+   reader->AddVariable("jf_nvtx", &jf_deltaR);
+   reader->AddVariable("jf_nvtx1t", &jf_nvtx1t);
+   
+
    
    // Loading config. files
    TString dir    = "dataset/weights/";
@@ -76,20 +103,30 @@ void applyTMVA(TString method){
 
    theTree->SetBranchAddress("ip2d_pb", &ip2d_pb);
    theTree->SetBranchAddress("ip2d_pu", &ip2d_pu);
+   theTree->SetBranchAddress("ip2d_pc", &ip2d_pc);
 
-   theTree->SetBranchAddress ("sv1_efc", &sv1_efc);
-   theTree->SetBranchAddress ("sv1_m", &sv1_m);
-
-
-   theTree->SetBranchAddress  ("jf_sig3d", &jf_sig3d);
-   theTree->SetBranchAddress  ("jf_deltaR",&jf_deltaR);
-   theTree->SetBranchAddress  ("jf_nvtx",&jf_nvtx);
-
-   /* theTree->SetBranchAddress("ip3d_pb", &ip3d_pb);
+   theTree->SetBranchAddress("ip3d_pb", &ip3d_pb);
    theTree->SetBranchAddress("ip3d_pu", &ip3d_pu);
-   theTree->SetBranchAddress  ("sv1_l2d", &sv1_l2d);
-   theTree->SetBranchAddress  ("sv1_l2d", &sv1_l2d);
-   theTree->SetBranchAddress  ("jf_nvtx1t",&jf_nvtx1t);*/
+   theTree->SetBranchAddress("ip3d_pc", &ip3d_pc);  
+   
+   theTree->SetBranchAddress("sv1_efc", &sv1_efc);
+   theTree->SetBranchAddress("sv1_m", &sv1_m);
+   theTree->SetBranchAddress("sv1_ntrkv", &sv1_ntrkv);
+   theTree->SetBranchAddress("sv1_n2t", &sv1_n2t);
+   theTree->SetBranchAddress("sv1_l2d", &sv1_l2d);
+   theTree->SetBranchAddress("sv1_l3d", &sv1_l3d);
+   theTree->SetBranchAddress("sv1_sig3d", &sv1_sig3d);
+   theTree->SetBranchAddress("sv1_deltaR", &sv1_deltaR);
+
+   theTree->SetBranchAddress("jf_efc", &jf_efc);
+   theTree->SetBranchAddress("jf_m", &jf_m);
+   theTree->SetBranchAddress("jf_ntrkv", &jf_ntrkv);
+   theTree->SetBranchAddress("jf_n2t", &jf_n2t);
+   //theTree->SetBranchAddress("jf_l3d", &jf_l3d);
+   theTree->SetBranchAddress("jf_sig3d", &jf_sig3d);
+   theTree->SetBranchAddress("jf_deltaR", &jf_deltaR);
+   theTree->SetBranchAddress("jf_nvtx", &jf_deltaR);
+   theTree->SetBranchAddress("jf_nvtx1t", &jf_nvtx1t);
 
    theTree->SetBranchAddress("label", &label);
 
@@ -120,11 +157,11 @@ void applyTMVA(TString method){
       // same distribution with truth label
       if (label == 5)
 	hs->Fill(mva_val);
-      else if (label == 0)
+      else if (label == 4)
 	hb->Fill(mva_val);
    }
 
-   //hMVA->Draw();   
+   //hMVA->Draw(); 
    // --> Compare results
    hb->Draw(); hs->Draw("SAME"); hs->SetLineColor(2);
    
@@ -137,4 +174,4 @@ void applyTMVA(TString method){
    
    output->Close();
 
-} 
+}

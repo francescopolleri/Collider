@@ -6,9 +6,9 @@
   TH1D hc("hc","",40,-1.2,1.2);
   TH1D hl("hl","",40,-1.2,1.2);
 
-  FlavTag->Draw("ip2d_pb>>hb","label==5");
-  FlavTag->Draw("ip2d_pb>>hc","label==4");
-  FlavTag->Draw("ip2d_pb>>hl","label==0");
+  FlavTag->Draw("jf_nvtx1t>>hb","label==5");
+  FlavTag->Draw("jf_nvtx1t>>hc","label==4");
+  FlavTag->Draw("jf_nvtx1t>>hl","label==0");
 
   gStyle->SetOptStat(0);
   hb.Draw("SAME");

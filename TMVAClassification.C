@@ -36,19 +36,30 @@ void TMVAClassification(){
   //   dataloader->AddVariable( "NomeVariabile", 'Tipo' ); // Tipo: 'F' (float) ,'I' (int)
    dataloader->AddVariable("ip2d_pb", 'F');
    dataloader->AddVariable("ip2d_pu", 'F');
+   dataloader->AddVariable("ip2d_pc", 'F');
+
+   dataloader->AddVariable("ip3d_pb", 'F');
+   dataloader->AddVariable("ip3d_pu", 'F');
+   dataloader->AddVariable("ip3d_pc", 'F');
    
    dataloader->AddVariable("sv1_efc", 'F');
    dataloader->AddVariable("sv1_m", 'F');
-   
+   dataloader->AddVariable("sv1_ntrkv", 'F');
+   dataloader->AddVariable("sv1_n2t", 'F');
+   dataloader->AddVariable("sv1_l2d", 'F');
+   dataloader->AddVariable("sv1_l3d", 'F');
+   dataloader->AddVariable("sv1_sig3d", 'F');
+   dataloader->AddVariable("sv1_deltaR", 'F');
+
+   dataloader->AddVariable("jf_efc", 'F');
+   dataloader->AddVariable("jf_m", 'F');
+   dataloader->AddVariable("jf_ntrkv", 'F');
+   dataloader->AddVariable("jf_n2t", 'F');
    dataloader->AddVariable("jf_sig3d", 'F');
    dataloader->AddVariable("jf_deltaR", 'F');
    dataloader->AddVariable("jf_nvtx", 'F');
+   dataloader->AddVariable("jf_nvtx1t", 'F');
 
-   /*  dataloader->AddVariable("ip3d_pb", 'F');
-   dataloader->AddVariable("ip3d_pu", 'F');
-   dataloader->AddVariable("sv1_l2d", 'F');
-   dataloader->AddVariable("sv1_l3d", 'F');
-   dataloader->AddVariable("jf_nvtx1t", 'F');*/
 
   TFile *input = new TFile("FlavTag.root");
   
@@ -63,7 +74,7 @@ void TMVAClassification(){
   // c-jets == 4
   // light-flavour jets == 0
   TCut mycuts = "label==5";  
-  TCut mycutb = "label==0";
+  TCut mycutb = "label==4";
   
   // Tell the factory how to use the training and testing events
   dataloader->PrepareTrainingAndTestTree(mycuts, mycutb, "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=NumEvents:!V" );

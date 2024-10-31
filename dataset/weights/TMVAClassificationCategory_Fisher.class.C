@@ -10,10 +10,10 @@ Method         : Fisher::Fisher
 TMVA Release   : 4.2.1         [262657]
 ROOT Release   : 6.24/02       [399362]
 Creator        : francesco
-Date           : Fri Oct 25 14:56:20 2024
+Date           : Thu Oct 31 12:07:34 2024
 Host           : Linux root-ubuntu-2004-1 5.4.0-73-generic #82-Ubuntu SMP Wed Apr 14 17:39:42 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 Dir            : /home/francesco/Francesco/Collider
-Training events: 243538
+Training events: 58591
 Analysis type  : [Classification]
 
 
@@ -33,14 +33,29 @@ IgnoreNegWeightsInTraining: "False" [Events with negative weights are ignored in
 
 #VAR -*-*-*-*-*-*-*-*-*-*-*-* variables *-*-*-*-*-*-*-*-*-*-*-*-
 
-NVar 7
+NVar 22
 ip2d_pb                       ip2d_pb                       ip2d_pb                       ip2d_pb                                                         'F'    [-1,0.956598758698]
 ip2d_pu                       ip2d_pu                       ip2d_pu                       ip2d_pu                                                         'F'    [-1,0.489619344473]
+ip2d_pc                       ip2d_pc                       ip2d_pc                       ip2d_pc                                                         'F'    [-1,0.445544570684]
+ip3d_pb                       ip3d_pb                       ip3d_pb                       ip3d_pb                                                         'F'    [-1,0.952814638615]
+ip3d_pu                       ip3d_pu                       ip3d_pu                       ip3d_pu                                                         'F'    [-1,0.507157623768]
+ip3d_pc                       ip3d_pc                       ip3d_pc                       ip3d_pc                                                         'F'    [-1,0.598663568497]
 sv1_efc                       sv1_efc                       sv1_efc                       sv1_efc                                                         'F'    [-1,0.99998998642]
-sv1_m                         sv1_m                         sv1_m                         sv1_m                                                           'F'    [-1000,5990.36816406]
-jf_sig3d                      jf_sig3d                      jf_sig3d                      jf_sig3d                                                        'F'    [-100,91.4591445923]
-jf_deltaR                     jf_deltaR                     jf_deltaR                     jf_deltaR                                                       'F'    [-1,4.7822842598]
+sv1_m                         sv1_m                         sv1_m                         sv1_m                                                           'F'    [-1000,5996.42285156]
+sv1_ntrkv                     sv1_ntrkv                     sv1_ntrkv                     sv1_ntrkv                                                       'F'    [-1,14]
+sv1_n2t                       sv1_n2t                       sv1_n2t                       sv1_n2t                                                         'F'    [-1,56]
+sv1_l2d                       sv1_l2d                       sv1_l2d                       sv1_l2d                                                         'F'    [-100,140.147964478]
+sv1_l3d                       sv1_l3d                       sv1_l3d                       sv1_l3d                                                         'F'    [-100,651.303833008]
+sv1_sig3d                     sv1_sig3d                     sv1_sig3d                     sv1_sig3d                                                       'F'    [-100,622.13885498]
+sv1_deltaR                    sv1_deltaR                    sv1_deltaR                    sv1_deltaR                                                      'F'    [-1,5.09307336807]
+jf_efc                        jf_efc                        jf_efc                        jf_efc                                                          'F'    [-1,1]
+jf_m                          jf_m                          jf_m                          jf_m                                                            'F'    [-1000,9927.95605469]
+jf_ntrkv                      jf_ntrkv                      jf_ntrkv                      jf_ntrkv                                                        'F'    [-1,13]
+jf_n2t                        jf_n2t                        jf_n2t                        jf_n2t                                                          'F'    [-1,119]
+jf_sig3d                      jf_sig3d                      jf_sig3d                      jf_sig3d                                                        'F'    [-100,90.948928833]
+jf_deltaR                     jf_deltaR                     jf_deltaR                     jf_deltaR                                                       'F'    [-1,0.747865557671]
 jf_nvtx                       jf_nvtx                       jf_nvtx                       jf_nvtx                                                         'F'    [-1,4]
+jf_nvtx1t                     jf_nvtx1t                     jf_nvtx1t                     jf_nvtx1t                                                       'F'    [-1,8]
 NSpec 0
 
 
@@ -84,10 +99,10 @@ class ReadFisher : public IClassifierReader {
    ReadFisher( std::vector<std::string>& theInputVars )
       : IClassifierReader(),
         fClassName( "ReadFisher" ),
-        fNvars( 7 )
+        fNvars( 22 )
    {
       // the training input variables
-      const char* inputVars[] = { "ip2d_pb", "ip2d_pu", "sv1_efc", "sv1_m", "jf_sig3d", "jf_deltaR", "jf_nvtx" };
+      const char* inputVars[] = { "ip2d_pb", "ip2d_pu", "ip2d_pc", "ip3d_pb", "ip3d_pu", "ip3d_pc", "sv1_efc", "sv1_m", "sv1_ntrkv", "sv1_n2t", "sv1_l2d", "sv1_l3d", "sv1_sig3d", "sv1_deltaR", "jf_efc", "jf_m", "jf_ntrkv", "jf_n2t", "jf_sig3d", "jf_deltaR", "jf_nvtx", "jf_nvtx1t" };
 
       // sanity checks
       if (theInputVars.size() <= 0) {
@@ -125,6 +140,36 @@ class ReadFisher : public IClassifierReader {
       fVmax[5] = 0;
       fVmin[6] = 0;
       fVmax[6] = 0;
+      fVmin[7] = 0;
+      fVmax[7] = 0;
+      fVmin[8] = 0;
+      fVmax[8] = 0;
+      fVmin[9] = 0;
+      fVmax[9] = 0;
+      fVmin[10] = 0;
+      fVmax[10] = 0;
+      fVmin[11] = 0;
+      fVmax[11] = 0;
+      fVmin[12] = 0;
+      fVmax[12] = 0;
+      fVmin[13] = 0;
+      fVmax[13] = 0;
+      fVmin[14] = 0;
+      fVmax[14] = 0;
+      fVmin[15] = 0;
+      fVmax[15] = 0;
+      fVmin[16] = 0;
+      fVmax[16] = 0;
+      fVmin[17] = 0;
+      fVmax[17] = 0;
+      fVmin[18] = 0;
+      fVmax[18] = 0;
+      fVmin[19] = 0;
+      fVmax[19] = 0;
+      fVmin[20] = 0;
+      fVmax[20] = 0;
+      fVmin[21] = 0;
+      fVmax[21] = 0;
 
       // initialize input variable types
       fType[0] = 'F';
@@ -134,6 +179,21 @@ class ReadFisher : public IClassifierReader {
       fType[4] = 'F';
       fType[5] = 'F';
       fType[6] = 'F';
+      fType[7] = 'F';
+      fType[8] = 'F';
+      fType[9] = 'F';
+      fType[10] = 'F';
+      fType[11] = 'F';
+      fType[12] = 'F';
+      fType[13] = 'F';
+      fType[14] = 'F';
+      fType[15] = 'F';
+      fType[16] = 'F';
+      fType[17] = 'F';
+      fType[18] = 'F';
+      fType[19] = 'F';
+      fType[20] = 'F';
+      fType[21] = 'F';
 
       // initialize constants
       Initialize();
@@ -163,15 +223,15 @@ class ReadFisher : public IClassifierReader {
    char   GetType( int ivar ) const { return fType[ivar]; }
 
    // normalisation of input variables
-   double fVmin[7];
-   double fVmax[7];
+   double fVmin[22];
+   double fVmax[22];
    double NormVariable( double x, double xmin, double xmax ) const {
       // normalise to output range: [-1, 1]
       return 2*(x - xmin)/(xmax - xmin) - 1.0;
    }
 
    // type of input variable: 'F' or 'I'
-   char   fType[7];
+   char   fType[22];
 
    // initialize internal variables
    void Initialize();
@@ -184,14 +244,29 @@ class ReadFisher : public IClassifierReader {
 
 inline void ReadFisher::Initialize() 
 {
-   fFisher0 = 0.403824082441;
-   fFisherCoefficients.push_back( 0.786139058739 );
-   fFisherCoefficients.push_back( -0.641011588245 );
-   fFisherCoefficients.push_back( 0.430992386443 );
-   fFisherCoefficients.push_back( 6.71160602209e-07 );
-   fFisherCoefficients.push_back( 0.000991599345589 );
-   fFisherCoefficients.push_back( 0.29576018251 );
-   fFisherCoefficients.push_back( 0.130926200292 );
+   fFisher0 = -0.276930432649;
+   fFisherCoefficients.push_back( -0.194951748523 );
+   fFisherCoefficients.push_back( -0.187127280597 );
+   fFisherCoefficients.push_back( 0.689446007747 );
+   fFisherCoefficients.push_back( 0.636009602277 );
+   fFisherCoefficients.push_back( -0.0570307202702 );
+   fFisherCoefficients.push_back( -1.06558392146 );
+   fFisherCoefficients.push_back( -0.141377560198 );
+   fFisherCoefficients.push_back( 7.07320754028e-05 );
+   fFisherCoefficients.push_back( 0.0623478442337 );
+   fFisherCoefficients.push_back( -0.0143970557535 );
+   fFisherCoefficients.push_back( -0.000771795331133 );
+   fFisherCoefficients.push_back( 0.000323704395244 );
+   fFisherCoefficients.push_back( 0.00127983986794 );
+   fFisherCoefficients.push_back( -0.0240510610469 );
+   fFisherCoefficients.push_back( 0.117626626152 );
+   fFisherCoefficients.push_back( 5.37469604439e-05 );
+   fFisherCoefficients.push_back( 0.054828942604 );
+   fFisherCoefficients.push_back( -0.000388196463651 );
+   fFisherCoefficients.push_back( -0.000508148271744 );
+   fFisherCoefficients.push_back( -0.114506189328 );
+   fFisherCoefficients.push_back( -0.0762910287425 );
+   fFisherCoefficients.push_back( 0.0316263632385 );
 
    // sanity check
    if (fFisherCoefficients.size() != fNvars) {
