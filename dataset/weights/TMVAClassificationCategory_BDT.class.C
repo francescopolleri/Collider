@@ -10,7 +10,7 @@ Method         : BDT::BDT
 TMVA Release   : 4.2.1         [262657]
 ROOT Release   : 6.24/02       [399362]
 Creator        : francesco
-Date           : Thu Oct 31 12:07:50 2024
+Date           : Thu Nov  7 11:09:32 2024
 Host           : Linux root-ubuntu-2004-1 5.4.0-73-generic #82-Ubuntu SMP Wed Apr 14 17:39:42 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 Dir            : /home/francesco/Francesco/Collider
 Training events: 58591
