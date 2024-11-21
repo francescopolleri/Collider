@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "TMVAClassification.C": "cpp",
-        "applyTMVA.C": "cpp"
+        "applyTMVA.C": "cpp",
+        "PlotVar.C": "cpp",
+        "makeROC.C": "cpp",
+        "Top.C": "cpp",
+        "compare_mTop.C": "cpp",
+        "cmath": "cpp"
     }
 }
