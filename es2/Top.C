@@ -90,8 +90,13 @@ void Top::Loop(string outFileStr="", bool isMC = true)
    //Example of plots that can be used for testing the jet pre-fit and post fit against the truth
    TH1D* h_blPtReso = new TH1D("h_blPtReso","",100,-1,1);
    TH1D* h_blPtPosFitReso = new TH1D("h_blPtPosFitReso","",100,-1,1);
-   //...
-   //...
+   TH1D* h_bhPtReso = new TH1D("h_bhPtReso","",100,-1,1);
+   TH1D* h_bhPtPosFitReso = new TH1D("h_bhPtPosFitReso","",100,-1,1);
+   TH1D* h_l0PtReso = new TH1D("h_l0PtReso","",100,-1,1);
+   TH1D* h_l0PtPosFitReso = new TH1D("h_l0PtPosFitReso","",100,-1,1);
+   TH1D* h_l1PtReso = new TH1D("h_l1PtReso","",100,-1,1);
+   TH1D* h_l1PtPosFitReso = new TH1D("h_l1PtPosFitReso","",100,-1,1);
+   
 
    //top masses, prefit and then post-fit:
    // NB: The x-range of mTop is not too large to facilitate the comparison of several templates
@@ -101,7 +106,7 @@ void Top::Loop(string outFileStr="", bool isMC = true)
    
    //Example of plots for saving the final output values, i.e. the post fit chi^2 and the MTop
    TH1D* h_tl_posFit  = new TH1D("h_tl_posFit","",45,145,205);
-   //...
+   TH1D* h_th_posFit  = new TH1D("h_th_posFit","",45,145,205);
    //...
    TH1D* h_mt   = new TH1D("h_mt","",45,145,205);
    TH1D* h_chi2 = new TH1D("h_chi2","",150,0,1500);
@@ -216,12 +221,13 @@ void Top::Loop(string outFileStr="", bool isMC = true)
       //extract post fit parameters
       //pT of the b-jet assigned to leptonic top decay
       fitter.GetParameter(0,pbl,epbl);
-      //...
-      //...
+      fitter.GetParameter(0,pbh,epbh);
+      fitter.GetParameter(0,pl0,epl0);
+      fitter.GetParameter(0,pl1,epl1);
+      
       //fitted top mass
       fitter.GetParameter(5,xt,ext);
 
-      
       //Evaluate the chi2 at the minimum
       int status = fitter.Eval(nPar, nullptr, chi2_val, par, 3);
       if(verb) cout<<"chi2_val = "<<chi2_val<<endl;
@@ -234,25 +240,30 @@ void Top::Loop(string outFileStr="", bool isMC = true)
       h_tl_preFit->Fill(mtl_preFit.M());
 
       //Example of  the b-jet pT resolution based on the truth
-      h_blPtReso->Fill( (bjetl.Pt() - jettruthpt[bjetl_assign_i])/jettruthpt[bjetl_assign_i]);
-      //...
-      //...
+      h_blPtReso->Fill( (bjetl.Pt() - jettruthpt[bjetl_assign_i])/jettruthpt[bjetl_assign_i] );
+      h_bhPtReso->Fill( (bjeth.Pt() - jettruthpt[bjeth_assign_i])/jettruthpt[bjetl_assign_i] );
 
 
       //Example of the b-jet pT resolution after the fit
       TLorentzVector  posFit_bjetl(bjetl);
       posFit_bjetl.SetPtEtaPhiM(pbl, bjetl.Eta(), bjetl.Phi(), 5);
       h_blPtPosFitReso->Fill( (posFit_bjetl.Pt() - jettruthpt[bjetl_assign_i])/jettruthpt[bjetl_assign_i] );
-      //...
-      //...
+      TLorentzVector  posFit_bjeth(bjeth);
+      posFit_bjeth.SetPtEtaPhiM(pbh, bjeth.Eta(), bjeth.Phi(), 5);
+      h_bhPtPosFitReso->Fill( (posFit_bjeth.Pt() - jettruthpt[bjeth_assign_i])/jettruthpt[bjeth_assign_i] );
+
+      TLorentzVector posFit_ljet0(ljet0);
+      posFit_bjetl.SetPtEtaPhiM(pl0, ljet0.Eta(), ljet0.Phi(), 0);
+      TLorentzVector posFit_ljet1(ljet1);
+      posFit_bjetl.SetPtEtaPhiM(pl1, ljet1.Eta(), ljet1.Phi(), 0);
 
       TLorentzVector  posFit_nu(nu);//NB THIS IS STILL THE PREFIT ONE!!
 
       //Example of the the reconstructed m-top after the fit
       TLorentzVector mtl_posFit(posFit_bjetl + mu + posFit_nu);
       h_tl_posFit->Fill(mtl_posFit.M());
-      //...
-      //...
+      TLorentzVector mth_posFit(posFit_bjeth + posFit_ljet0 + posFit_ljet1);
+      h_th_posFit->Fill(mth_posFit.M());
 
       h_mt->Fill(xt);
    }
@@ -261,18 +272,22 @@ void Top::Loop(string outFileStr="", bool isMC = true)
    h_diff->Draw();
    
    TCanvas *c_reso = new TCanvas("c_reso","c_reso",900, 600);
-   c_reso->Divide(4,2);
+   c_reso->Divide(2,1);
    c_reso->cd(1);
    h_blPtReso->Draw();
-   //...
-   //...
-
-   c_reso->cd(5);   
-   h_blPtPosFitReso->Draw();
-   //...
-   //...
-
+   h_blPtPosFitReso->SetLineColor(1);
+   h_blPtPosFitReso->Draw("SAME");
    
+   c_reso->cd(2);
+   h_bhPtReso->Draw();
+   h_bhPtPosFitReso->SetLineColor(1);
+   h_bhPtPosFitReso->Draw("SAME");
+
+   //c_reso->cd(5);   
+   //h_blPtPosFitReso->Draw();
+   //...
+   //...
+
    TCanvas *topM_c = new TCanvas("topM_c","topM_c",600, 600);
    h_mt->Draw();
 

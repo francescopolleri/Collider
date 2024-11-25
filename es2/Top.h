@@ -123,16 +123,16 @@ void Top::Init(TTree *tree)
    fChain->SetBranchAddress("jeteta", jeteta, &b_jeteta);
    fChain->SetBranchAddress("jetphi", jetphi, &b_jetphi);
    fChain->SetBranchAddress("jetlabel", jetlabel, &b_jetlabel);
-   fChain->SetBranchAddress("jettruth", jettruth, &b_jettruth);
-   fChain->SetBranchAddress("jettruthpt", jettruthpt, &b_jettruthpt);
+   //fChain->SetBranchAddress("jettruth", jettruth, &b_jettruth);
+   //fChain->SetBranchAddress("jettruthpt", jettruthpt, &b_jettruthpt);
    fChain->SetBranchAddress("mupt", &mupt, &b_mupt);
    fChain->SetBranchAddress("mueta", &mueta, &b_mueta);
    fChain->SetBranchAddress("muphi", &muphi, &b_muphi);
    fChain->SetBranchAddress("metpt", &metpt, &b_metpt);
    fChain->SetBranchAddress("metphi", &metphi, &b_metphi);
-   fChain->SetBranchAddress("nutruthpt", &nutruthpt, &b_nutruthpt);
-   fChain->SetBranchAddress("nutruthphi", &nutruthphi, &b_nutruthphi);
-   fChain->SetBranchAddress("nutruthpz", &nutruthpz, &b_nutruthpz);
+   //fChain->SetBranchAddress("nutruthpt", &nutruthpt, &b_nutruthpt);
+   //fChain->SetBranchAddress("nutruthphi", &nutruthphi, &b_nutruthphi);
+   //fChain->SetBranchAddress("nutruthpz", &nutruthpz, &b_nutruthpz);
    Notify();
 }
 
