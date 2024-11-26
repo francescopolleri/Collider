@@ -82,6 +82,7 @@ void compare_mTop(){
     mTop_chi2->Draw("AP");
 
     double mTop_from_fit = -p1/(2*p2);
-    double e_mTop = ep1/(2*p2) + p1*ep2/(2*p2*p2); 
+    double e_mTop = TMath::Abs(ep1/(2*p2) + p1*ep2/(2*p2*p2)); 
     std::cout<<"mTop from chi2 fit is: "<<mTop_from_fit<<" +/- "<<e_mTop<<std::endl;
+    std::cout<<"chi2 at minimun is :"<<f->Eval(mTop_from_fit)<<std::endl;
 }
